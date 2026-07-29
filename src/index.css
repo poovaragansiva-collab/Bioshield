@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  /* Deep-ocean surface scale */
+  --color-abyss-950: #030a13;
+  --color-abyss-900: #061321;
+  --color-abyss-850: #081a2c;
+  --color-abyss-800: #0a2136;
+  --color-abyss-700: #0e2c47;
+  --color-line: #12354f;
+  --color-line-soft: #0d2a41;
+
+  /* Text */
+  --color-mist: #dcecf7;
+  --color-haze: #8fb2c9;
+  --color-dim: #5d8099;
+
+  /* Accents — signal cyan + bioluminescent green */
+  --color-cyber-300: #7ce4f7;
+  --color-cyber-400: #41d6f0;
+  --color-cyber-500: #1fb4d4;
+  --color-cyber-600: #1487a3;
+  --color-bio-300: #7df0c0;
+  --color-bio-400: #3ee6a4;
+  --color-bio-500: #1fce87;
+  --color-bio-600: #129963;
+
+  /* Semantic */
+  --color-warn: #f5b054;
+  --color-crit: #ff6470;
+
+  --animate-ping-slow: bs-ping 2.3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-marquee: bs-marquee 38s linear infinite;
+  --animate-scan: bs-scan 7.5s linear infinite;
+  --animate-blink: bs-blink 1.7s steps(2, start) infinite;
+  --animate-rise: bs-rise 0.45s ease-out both;
+  --animate-spin-slow: bs-spin 16s linear infinite;
+
+  @keyframes bs-ping {
+    0% { transform: scale(0.55); opacity: 0.9; }
+    80%, 100% { transform: scale(2.15); opacity: 0; }
+  }
+  @keyframes bs-marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes bs-scan {
+    0% { top: -8%; }
+    100% { top: 108%; }
+  }
+  @keyframes bs-blink {
+    50% { opacity: 0.25; }
+  }
+  @keyframes bs-rise {
+    from { opacity: 0; transform: translateY(-7px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes bs-spin {
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* ---------- base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-color: var(--color-abyss-950);
+  color: var(--color-mist);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100vh;
+}
+/* Layered ambient background: glows + tactical grid + noise */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 520px at 12% -6%, rgba(31, 180, 212, 0.14), transparent 62%),
+    radial-gradient(820px 560px at 96% 18%, rgba(18, 153, 99, 0.12), transparent 60%),
+    radial-gradient(700px 700px at 50% 115%, rgba(20, 135, 163, 0.1), transparent 62%),
+    linear-gradient(rgba(65, 214, 240, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(65, 214, 240, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, auto, 46px 46px, 46px 46px;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+::selection {
+  background: rgba(62, 230, 164, 0.28);
+  color: #eafff5;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #04101d; }
+::-webkit-scrollbar-thumb {
+  background: #123a55;
+  border-radius: 8px;
+  border: 2px solid #04101d;
+}
+::-webkit-scrollbar-thumb:hover { background: #1b4d70; }
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- HUD gauges & map chrome ---------- */
+.gauge-arc {
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.5s ease;
+}
+
+.spark-line {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: bs-spark 1.8s 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes bs-spark {
+  to { stroke-dashoffset: 0; }
+}
+
+.bs-route {
+  stroke-dasharray: 3 9;
+  stroke-linecap: round;
+  animation: bs-dash 0.9s linear infinite;
+}
+@keyframes bs-dash {
+  to { stroke-dashoffset: -12; }
+}
+
+.bs-ping { position: relative; }
+.bs-ping::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid currentColor;
+  animation: bs-ping 2.3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.bs-ping-fast::after { animation-duration: 1.4s; }
+
+.bs-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 56px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(65, 214, 240, 0.07) 45%,
+    rgba(65, 214, 240, 0.22) 50%,
+    rgba(65, 214, 240, 0.07) 55%,
+    transparent
+  );
+  animation: bs-scan 7.5s linear infinite;
+}
+
+/* ---------- Leaflet dark skin ---------- */
+.leaflet-container {
+  background: #04101d;
+  font-family: var(--font-mono);
+  outline: none;
+}
+.leaflet-control-zoom a {
+  background: #0a2136 !important;
+  color: #9fd8ea !important;
+  border-color: #12354f !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.leaflet-control-zoom a:hover {
+  background: #0e2c47 !important;
+  color: #41d6f0 !important;
+}
+.leaflet-bar {
+  border: 1px solid #12354f !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(6, 19, 33, 0.82) !important;
+  color: #5d8099 !important;
+  font-size: 9px !important;
+  font-family: var(--font-mono);
+}
+.leaflet-control-attribution a { color: #8fb2c9 !important; }
+.leaflet-tooltip.bs-tip {
+  background: #081a2c;
+  border: 1px solid #1b4d70;
+  border-radius: 6px;
+  color: #dcecf7;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 9px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.leaflet-tooltip-top.bs-tip::before { border-top-color: #1b4d70; }
+.leaflet-tooltip-bottom.bs-tip::before { border-bottom-color: #1b4d70; }
+.leaflet-tooltip-left.bs-tip::before { border-left-color: #1b4d70; }
+.leaflet-tooltip-right.bs-tip::before { border-right-color: #1b4d70; }
