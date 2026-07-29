@@ -1,17 +1,20 @@
-const API_URL =
-"https://poovaragan12.app.n8n.cloud/webhook/dashboard";
+const WEBHOOK_URL =
+  "https://poovaragan12.app.n8n.cloud/webhook/dashboard";
 
+export async function fetchIncidents() {
+  try {
+    const response = await fetch(WEBHOOK_URL);
 
-export async function fetchIncidents(){
-
-    const response = await fetch(API_URL);
-
-    if(!response.ok){
-        throw new Error("Failed fetching incidents");
+    if (!response.ok) {
+      throw new Error("Webhook failed");
     }
 
     const data = await response.json();
 
     return data;
 
+  } catch (error) {
+    console.error("API Error:", error);
+    return [];
+  }
 }
