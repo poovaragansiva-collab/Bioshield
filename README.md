@@ -237,4 +237,19 @@ CSE Student • AI & Full-Stack Developer
 
 ⭐ If you find this project interesting, consider giving it a star!
 
+---
+
+## 📫 Connect
+
+**GitHub**
+https://github.com/poovaragansiva-collab
+
+**LinkedIn**
+https://www.linkedin.com/in/poovaragans
+
+**Portfolio**
+https://poovaragan-portfolio.vercel.app/
+
+---
+
 </div>
