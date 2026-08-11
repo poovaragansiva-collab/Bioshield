@@ -2,7 +2,7 @@
   <img src="./assets/banner.png" width="100%">
 </p>
 
-# 🛡️ BioShield
+
 
 ### AI-Powered Ocean Biodiversity Monitoring & Anti-Poaching System
 
