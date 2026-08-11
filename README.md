@@ -204,6 +204,26 @@ CSE Student • AI & Full-Stack Developer
 
 <div align="center">
 
+## 📸 Screenshots
+
+### 🖥️ Dashboard
+
+<p align="center">
+  <img src="./assets/bioshield-dashboard.png" width="900">
+</p>
+
+### 🗺️ Monitoring Map
+
+<p align="center">
+  <img src="./assets/bioshield-map.png" width="900">
+</p>
+
+### 🚨 Threat Monitoring
+
+<p align="center">
+  <img src="./assets/bioshield-monitoring.png" width="900">
+</p>
+
 ### 🌊 Protect the Ocean. Protect the Future.
 
 ⭐ If you find this project interesting, consider giving it a star!
